@@ -1,9 +1,11 @@
 import express from 'express';
 import cookieParser from 'cookie-parser';
-import logger from 'morgan';
-import 'dotenv/config.js';
+import logger from 'morgan'; //for logging
+
+import './config.js';
 import connect from './src/components/db/setup.js';
 import userRouter from './src/components/user/index.js';
+import ticketRouter from './src/components/ticket/index.js';
 import swaggerRouter from './src/docs/index.js';
 
 // connect to db
@@ -15,7 +17,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use('/', userRouter);
+app.use('/users', userRouter);
+app.use('/tickets', ticketRouter);
 app.use('/swagger', swaggerRouter);
 
 // error handler
@@ -32,7 +35,7 @@ app.use((err, req, res, next) => {
 	res.locals.error = req.app.get('env') === 'development' ? err : {};
 
 	// render the error page
-	if (!process.env.NODE_ENV) {
+	if (!process.env.APP_ENV) {
 		console.log(err);
 	}
 	res.status(err.status || 500).send({

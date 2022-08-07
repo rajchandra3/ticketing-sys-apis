@@ -1,11 +1,10 @@
 import mongoose from 'mongoose';
+import config from '../../../config.js';
 
 mongoose.set('useCreateIndex', true);
 
-const production = process.env.APP_ENV === 'production';
-const dbUrl = production
-	? process.env.ATLAS_URL_PRODUCTION
-	: process.env.ATLAS_URL_TEST;
+const production = config.appEnv === 'production';
+const dbUrl = config.dbUrl;
 const connect = () => {
 	// CONNECTING TO MONGODB ON START
 	mongoose.connect(
@@ -19,10 +18,10 @@ const connect = () => {
 			if (e) {
 				console.log('e', e);
 				process.exit(1);
-			} else if (!production) {
-				console.log('Database ready to use.', dbUrl);
-			} else if (process.env.APP_ENV === 'production') {
+			} else if (production) {
 				console.log('Database ready to use.');
+			} else if (!production) {
+				console.log('DB ready to use -> ', dbUrl);
 			}
 		},
 	);
