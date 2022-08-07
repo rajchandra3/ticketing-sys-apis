@@ -6,7 +6,6 @@ import './config.js';
 import connect from './src/components/db/setup.js';
 import userRouter from './src/components/user/index.js';
 import ticketRouter from './src/components/ticket/index.js';
-import swaggerRouter from './src/docs/index.js';
 
 // connect to db
 connect();
@@ -19,7 +18,6 @@ app.use(cookieParser());
 
 app.use('/users', userRouter);
 app.use('/tickets', ticketRouter);
-app.use('/swagger', swaggerRouter);
 
 // error handler
 // catch 404 and forward to error handler
