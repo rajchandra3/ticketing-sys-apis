@@ -1,9 +1,8 @@
 import mongoose from 'mongoose';
-import { nanoid } from 'nanoid';
 
 const schema = new mongoose.Schema(
 	{
-		id: { type: String, unique: true, default: nanoid() },
+		id: { type: String, unique: true },
 		title: String,
 		description: String,
 		status: { type: String, default: 'open', enum: ['open', 'close'] },
